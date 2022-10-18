@@ -18,8 +18,20 @@ job_t* job_new(pid_t pid, unsigned int id, unsigned int priority,
 /* 
  * TODO: you must implement this function
  */
-job_t* job_copy(job_t* src, job_t* dst) {    
-    return src;
+job_t* job_copy(job_t* src, job_t* dst) {
+    if (src == NULL)    {
+        return NULL;
+    }  if (src == dst ) {
+        return src;
+    }  if (dst == NULL) {
+        job_t* new_job = job_new( src->pid, src->id, src->priority, src->label ); 
+        return new_job;
+    }  else  {
+        dst == src;
+        return dst;
+    }
+
+    return src; 
 }
 
 /* 

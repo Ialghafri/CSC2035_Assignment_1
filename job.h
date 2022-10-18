@@ -86,7 +86,7 @@ typedef struct job {
     unsigned int id;
     unsigned int priority;
     char label[MAX_NAME_SIZE];
-} job_t;
+} job_t; 
 
 /*
  * job_new(pid_t pid, unsigned int id, unsigned int priority, const char* label)

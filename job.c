@@ -31,22 +31,49 @@ job_t* job_copy(job_t* src, job_t* dst) {
         return dst;
     }
 
-    return src; 
+    return NULL; 
 }
 
 /* 
  * TODO: you must implement this function
  */
 void job_init(job_t* job) {
+    if ( job != NULL ) {
+        job->pid = 0;
+        job->id = 0;
+        job->priority = 0;
+        strcpy(job->label, PAD_STRING);
+    }   
+    
     return;
+     
 }
 
 /* 
  * TODO: you must implement this function
  */
 bool job_is_equal(job_t* j1, job_t* j2) {
-    return false;
+
+if ( j1 == NULL && j2 == NULL ) {
+
+    return true;
 }
+
+else if ( (j1 == NULL && j2 != NULL) || (j1 != NULL && j2 == NULL) ) {
+
+    return false;
+
+}    
+if ( j1->pid == j2->pid && j1->id == j2->id && j1->priority == j2->priority && strcmp(j1->label, j2->label ) == 0) {
+
+    return true;
+}
+else { 
+
+    return false;
+} 
+}
+
 
 /*
  * TODO: you must implement this function.

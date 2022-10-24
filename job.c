@@ -27,7 +27,11 @@ job_t* job_copy(job_t* src, job_t* dst) {
         job_t* new_job = job_new( src->pid, src->id, src->priority, src->label ); 
         return new_job;
     }  else  {
-        dst == src;
+        dst -> pid = src -> pid;
+        dst -> id = src -> id;
+        dst -> priority = src -> priority;
+        strcpy ( dst -> label , src -> label);
+        
         return dst;
     }
 
@@ -83,7 +87,34 @@ else {
  */
 job_t* job_set(job_t* job, pid_t pid, unsigned int id, unsigned int priority,
     const char* label) {
+
+if( job != NULL ){
+
+    job->id = id;
+    job->pid = pid;
+    job->priority = priority;
+    strncpy( job->label, label, MAX_NAME_SIZE - 1 );
+
+    
+
+
     return job;
+
+    }
+
+
+if ( job == NULL ) {
+
+        return NULL; 
+
+    }
+
+else if ( job->id == id && job->pid == pid && job->priority == priority && job->label == label) {
+
+    return NULL;
+
+    }   
+    
 }
 
 /*

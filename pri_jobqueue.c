@@ -12,7 +12,7 @@
  * Hint:
  * - see job_new in job.c
  */
-pri_jobqueue_t* pri_jobqueue_new() {
+pri_jobqueue_t* pri_jobqueue_new( int buf_size, int size, job_t jobs) {
     return NULL;
 }
 

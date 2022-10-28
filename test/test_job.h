@@ -34,6 +34,13 @@ MunitResult test_job_set_null(const MunitParameter params[], void* fixture);
 
 MunitResult test_job_to_str_stack(const MunitParameter params[], void* fixture);
 MunitResult test_job_to_str_heap(const MunitParameter params[], void* fixture);
+MunitResult test_job_to_str_err(const MunitParameter params[], void* fixture);
+MunitResult test_job_to_str_null(const MunitParameter params[], void* fixture);
+
+MunitResult test_str_to_job_stack(const MunitParameter params[], void* fixture);
+MunitResult test_str_to_job_heap(const MunitParameter params[], void* fixture);
+MunitResult test_str_to_job_err(const MunitParameter params[], void* fixture);
+MunitResult test_str_to_job_null(const MunitParameter params[], void* fixture);
 
 MunitResult test_job_delete(const MunitParameter params[], void* fixture);
 
@@ -80,7 +87,20 @@ static MunitTest tests[] = {
         MUNIT_TEST_OPTION_NONE, NULL },
     { "/test_job_to_str_heap", test_job_to_str_heap, NULL, NULL,
         MUNIT_TEST_OPTION_NONE, NULL },
-        
+    { "/test_job_to_str_err", test_job_to_str_err, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+    { "/test_job_to_str_null", test_job_to_str_null, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+
+    { "/test_str_to_job_stack", test_str_to_job_stack, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+    { "/test_str_to_job_heap", test_str_to_job_heap, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+    { "/test_str_to_job_err", test_str_to_job_err, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+    { "/test_str_to_job_null", test_str_to_job_null, NULL, NULL,
+        MUNIT_TEST_OPTION_NONE, NULL },
+
     { "/test_job_delete", test_job_delete, NULL, NULL,
         MUNIT_TEST_OPTION_NONE, NULL },
         

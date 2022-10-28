@@ -20,6 +20,14 @@ pri_jobqueue_t* pri_jobqueue_new( int buf_size, int size, job_t jobs) {
  * TODO: you must implement this function.
  */
 void pri_jobqueue_init(pri_jobqueue_t* pjq) {
+    int job_size = JOB_BUFFER_SIZE;
+    int size = 0;
+
+
+
+
+
+
     return;
 }
 

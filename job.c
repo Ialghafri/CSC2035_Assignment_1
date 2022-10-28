@@ -88,34 +88,49 @@ else {
 job_t* job_set(job_t* job, pid_t pid, unsigned int id, unsigned int priority,
     const char* label) {
 
-if( job != NULL ){
-
-    job->id = id;
-    job->pid = pid;
-    job->priority = priority;
-    strncpy( job->label, label, MAX_NAME_SIZE - 1 );
-
-    
-
-
-    return job;
-
-    }
-
+    char storeLabel[MAX_NAME_SIZE];
 
 if ( job == NULL ) {
 
         return NULL; 
 
     }
+else {
 
-else if ( job->id == id && job->pid == pid && job->priority == priority && job->label == label) {
+    job->id = id;
+    job->pid = pid;
+    job->priority = priority;
 
-    return NULL;
+    if ( label == NULL ) {
 
-    }   
-    
+        snprintf( storeLabel, MAX_NAME_SIZE, "%s", PAD_STRING );
+
+        storeLabel[ MAX_NAME_SIZE - 1 ] = "\0";
+
+        snprintf( job->label, MAX_NAME_SIZE, "%s",storeLabel );
+
+        return job;
+
+
+
+    }
+
+    else {
+
+        snprintf( storeLabel, MAX_NAME_SIZE, "%s%s", label,PAD_STRING );
+
+        storeLabel[ MAX_NAME_SIZE - 1 ] = "\0";
+
+        snprintf( job->label, MAX_NAME_SIZE, "%s",storeLabel );
+
+        return job;
+
+
+    }
+
 }
+
+}    
 
 /*
  * TODO: you must implement this function.
@@ -124,8 +139,38 @@ else if ( job->id == id && job->pid == pid && job->priority == priority && job->
  *      and the documentation in job.h for when to do dynamic allocation
  */
 char* job_to_str(job_t* job, char* str) {
+
+    if (strlen(job->label) == MAX_NAME_SIZE - 1  || str == NULL ){
+
+        if ( job == NULL ) {
+        job_t* pdac;
+        pdac = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
+        
+
+        snprintf( pdac, JOB_STR_SIZE, JOB_STR_FMT, pdac->pid, pdac-> id, pdac->priority, pdac-> label);
+        return pdac;
+
+        }
+
+        else {
+
+        snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label);
+
+        return job;
+
+        }
+
+
     return NULL;
+
+    
+
+    } 
+
+
+
 }
+
 
 /*
  * TODO: you must implement this function.
@@ -133,7 +178,40 @@ char* job_to_str(job_t* job, char* str) {
  * - see the hint for job_to_str
  */
 job_t* str_to_job(char* str, job_t* job) {
-    return NULL;
+
+    if ( str == NULL || sscanf( str, JOB_STR_FMT )) {
+
+        return NULL;
+
+    }
+
+    if ( job == NULL ) {
+        job_t* nullNew;
+        nullNew = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
+        job_init(nullNew);
+        
+
+        snprintf( nullNew, JOB_STR_SIZE, JOB_STR_FMT, &nullNew->pid, &nullNew-> id, &nullNew->priority, nullNew-> label );
+        return nullNew;
+
+
+
+    }
+
+    if ( strnlen( str, MAX_NAME_SIZE) != MAX_NAME_SIZE - 1 || strnlen( job->label, MAX_NAME_SIZE ) != MAX_NAME_SIZE - 1 ) {
+
+        delete (job);
+
+        return NULL;
+
+    }
+
+    else 
+    
+    snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, &job->id, &job->pid, &job->priority, job->label );
+
+
+    return str;
 }
 
 /* 
@@ -142,5 +220,8 @@ job_t* str_to_job(char* str, job_t* job) {
  * - look at the allocation of a job in job_new
  */
 void job_delete(job_t* job) {
+    
+    free (job);
+
     return;
 }

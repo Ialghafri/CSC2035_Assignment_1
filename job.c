@@ -140,34 +140,36 @@ else {
  */
 char* job_to_str(job_t* job, char* str) {
 
-    if (strlen(job->label) == MAX_NAME_SIZE - 1  || str == NULL ){
+    if (strnlen(job->label, MAX_NAME_SIZE) != MAX_NAME_SIZE - 1 ){ return NULL;
+     }
 
-        if ( job == NULL ) {
-        job_t* pdac;
-        pdac = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
-        
+    if ( job == NULL ) {
+    return NULL;
+    }
 
-        snprintf( pdac, JOB_STR_SIZE, JOB_STR_FMT, pdac->pid, pdac-> id, pdac->priority, pdac-> label);
-        return pdac;
+    else {
+
+
+        if (str != NULL) {
+
+            snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label);
+
+            return str;
 
         }
 
         else {
+        char* pdac;
+        pdac = (char*) malloc(sizeof(JOB_STR_SIZE) );
 
-        snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label);
-
-        return job;
-
+        snprintf( pdac, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job-> id, job->priority, job-> label);
+        return pdac;
         }
-
-
-    return NULL;
-
-    
+        
 
     } 
 
-
+   return NULL;
 
 }
 
@@ -185,33 +187,45 @@ job_t* str_to_job(char* str, job_t* job) {
 
     }
 
+    int pid;
+    int id;
+    int priority;
+    char label[MAX_NAME_SIZE];
+    char compare_str[JOB_STR_SIZE];
+
     if ( job == NULL ) {
         job_t* nullNew;
         nullNew = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
         job_init(nullNew);
         
+        sscanf(str, JOB_STR_FMT, &pid, &id, &priority, label);
+        snprintf( compare_str, JOB_STR_SIZE, JOB_STR_FMT, pid, id, priority, label );
+        if (strncmp(str, compare_str, JOB_STR_SIZE) != 0) {
+            return NULL;
+        }
 
-        snprintf( nullNew, JOB_STR_SIZE, JOB_STR_FMT, &nullNew->pid, &nullNew-> id, &nullNew->priority, nullNew-> label );
-        return nullNew;
-
+        job_set(nullNew, pid, id, priority, label);
+        job_copy(nullNew, job);
 
 
     }
 
-    if ( strnlen( str, MAX_NAME_SIZE) != MAX_NAME_SIZE - 1 || strnlen( job->label, MAX_NAME_SIZE ) != MAX_NAME_SIZE - 1 ) {
+    else {
+        sscanf(str, JOB_STR_FMT, &job->pid, &job->id, &job->priority, job->label);
+        snprintf( compare_str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label );
 
-        delete (job);
 
-        return NULL;
-
+        if (strnlen(job->label, MAX_NAME_SIZE - 1) != MAX_NAME_SIZE - 1) {
+            return NULL;
+        }        
+        if (strncmp(str, compare_str, JOB_STR_SIZE) !=0) {return NULL;
+        }
     }
 
-    else 
-    
-    snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, &job->id, &job->pid, &job->priority, job->label );
 
 
-    return str;
+    return job;
+
 }
 
 /* 

@@ -12,21 +12,27 @@
  * Hint:
  * - see job_new in job.c
  */
-pri_jobqueue_t* pri_jobqueue_new( int buf_size, int size, job_t jobs) {
-    return NULL;
+pri_jobqueue_t* pri_jobqueue_new( int buf_size, int size, job_t jobs) {   // double check
+    
+    pri_jobqueue_t* new = (pri_jobqueue_t*) malloc(sizeof(JOB_BUFFER_SIZE));
+    pri_jobqueue_init(new);
+    return new;
 }
 
 /* 
  * TODO: you must implement this function.
  */
-void pri_jobqueue_init(pri_jobqueue_t* pjq) {
-    int job_size = JOB_BUFFER_SIZE;
-    int size = 0;
+void pri_jobqueue_init(pri_jobqueue_t* pjq) {   // double check
+    pjq->buf_size = JOB_BUFFER_SIZE;
+    pjq->size = 0;
 
+    for (int i=0; i < pjq->buf_size; i++ ) {
 
+        job_init(&pjq->jobs[i]);
 
+    }
 
-
+    
 
     return;
 }
@@ -41,6 +47,23 @@ void pri_jobqueue_init(pri_jobqueue_t* pjq) {
  *      that was on the queue
  */
 job_t* pri_jobqueue_dequeue(pri_jobqueue_t* pjq, job_t* dst) {
+
+    if ( dst != NULL ) {
+
+        
+
+    }
+
+    if ( dst == NULL ) {
+
+
+
+    }
+
+
+
+
+
     return NULL;
 }
 

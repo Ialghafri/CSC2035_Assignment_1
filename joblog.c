@@ -79,6 +79,18 @@ job_t* joblog_read(proc_t* proc, int entry_num, job_t* job) {
  * - see the hint for joblog_read
  */
 void joblog_write(proc_t* proc, job_t* job) {
+
+
+
+
+    //proc_t* f = fopen(proc, "w");
+
+    
+    //fprintf(f, JOB_STR_FMT, , i);
+
+    //fclose(f);
+
+
     return;
 }
 
@@ -86,5 +98,8 @@ void joblog_write(proc_t* proc, job_t* job) {
  * TODO: you must implement this function.
  */
 void joblog_delete(proc_t* proc) {
+    if (proc != NULL) {
+        unlink(new_log_name(proc));
+    }
     return;
 }

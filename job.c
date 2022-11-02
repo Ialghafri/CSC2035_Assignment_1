@@ -211,6 +211,7 @@ job_t* str_to_job(char* str, job_t* job) {
     }
 
     else {
+
         sscanf(str, JOB_STR_FMT, &job->pid, &job->id, &job->priority, job->label);
         snprintf( compare_str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label );
 
@@ -220,6 +221,7 @@ job_t* str_to_job(char* str, job_t* job) {
         }        
         if (strncmp(str, compare_str, JOB_STR_SIZE) !=0) {return NULL;
         }
+        
     }
 
 

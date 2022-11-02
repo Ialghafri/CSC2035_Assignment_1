@@ -80,10 +80,21 @@ job_t* joblog_read(proc_t* proc, int entry_num, job_t* job) {
  */
 void joblog_write(proc_t* proc, job_t* job) {
 
+    if ( proc == NULL || job == NULL ) { 
+        errno = 0;
+        return;
+     }
+
+    char* newLogFile = new_log_name(proc);
+    FILE* f = fopen( newLogFile, "a" );
+
+    fprintf( f, "%s\n", job_to_str(job, NULL));
+
+    fclose(f);
 
 
 
-    //proc_t* f = fopen(proc, "w");
+    //FILE* f = fopen(proc, "w");
 
     
     //fprintf(f, JOB_STR_FMT, , i);

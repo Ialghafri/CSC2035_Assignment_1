@@ -3,7 +3,6 @@
 #include <stdio.h>
 #define SJOB_STR_SIZE 32
 
-/* simple job queue  definition and functions to verify ordering */
 /* simple job queue definition and functions to verify ordering */
 typedef struct simple_job {
     int pid;
@@ -248,13 +247,22 @@ MunitResult test_pjq_init(test_jq_t* test_jq) {
     pri_jobqueue_init(q);
     
     assert_queue_initialised(q);
-
+    
     free(q);
     
-    sjq_t sjq;
-    sjq_init(&sjq);
-    assert_true(fill_queue(&sjq, test_jq, M_SAME));
+    unsigned int priority = 0;
     
+    for (int i = 0; i < JOB_BUFFER_SIZE; i++) {
+        job_t j;
+        priority = get_field(M_SAME, priority);
+        set_job(&j, i + 1, i, priority);
+        test_jq->qimpl->jobs[i] = j;
+        test_jq->qimpl->size++;
+    }
+
+    assert_false(tq_is_empty(test_jq));
+    assert_true(tq_is_full(test_jq));
+
     pri_jobqueue_init((pri_jobqueue_t*) test_jq->q);
     assert_queue_initialised((pri_jobqueue_t*) test_jq->q);
 

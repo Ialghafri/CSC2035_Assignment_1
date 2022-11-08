@@ -69,7 +69,21 @@ int joblog_init(proc_t* proc) {
  * - see job.h for a function to create a job from its string representation
  */
 job_t* joblog_read(proc_t* proc, int entry_num, job_t* job) {
+
+    if ( job == NULL )
     return NULL;
+
+    char* newLogFile = new_log_name(proc);
+    FILE* f = fopen( newLogFile, "r" );
+
+    char row[JOB_STR_SIZE];
+
+    fgets( row, JOB_STR_SIZE, f ); 
+
+    job = str_to_job(row, job);
+    return job;    
+
+
 }
 
 /* 
@@ -81,7 +95,7 @@ job_t* joblog_read(proc_t* proc, int entry_num, job_t* job) {
 void joblog_write(proc_t* proc, job_t* job) {
 
     if ( proc == NULL || job == NULL ) { 
-        errno = 0;
+            errno = 0;  //
         return;
      }
 
@@ -92,15 +106,28 @@ void joblog_write(proc_t* proc, job_t* job) {
 
     fclose(f);
 
+    /////
 
 
-    //FILE* f = fopen(proc, "w");
+    // if ( proc == NULL || job == NULL ) { 
+    //      errno = 0;
+    //      return;
+    //   }
 
-    
-    //fprintf(f, JOB_STR_FMT, , i);
+    //  char* newLogFile = new_log_name(proc);
+    //  FILE* f = fopen( newLogFile, "a" );
 
-    //fclose(f);
+    //  fprintf( f, "%s\n", job_to_str(job, NULL));
 
+    //  //proc_t* f = fopen(proc, "w");
+    //  fclose(f);
+
+
+
+     //FILE* f = fopen(proc, "w");
+
+
+     //fprintf(f, JOB_STR_FMT, , i);
 
     return;
 }

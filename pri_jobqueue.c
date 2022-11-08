@@ -14,16 +14,16 @@
  */
 pri_jobqueue_t* pri_jobqueue_new( int buf_size, int size, job_t jobs) {   // double check
     
-    pri_jobqueue_t* newJobQueue = (pri_jobqueue_t*) malloc(sizeof(JOB_BUFFER_SIZE));
-    pri_jobqueue_init(newJobQueue);
+    pri_jobqueue_t* newJobQueue  = (pri_jobqueue_t*) malloc(sizeof(pri_jobqueue_t)); //malloc(sizeof(pri_jobqueue_t)); <-- malloc(JOB_BUFFER_SIZE)
+    pri_jobqueue_init( newJobQueue );
     return newJobQueue;
 }
 
-/* 
+/*   
  * TODO: you must implement this function.
  */
 void pri_jobqueue_init(pri_jobqueue_t* pjq) {   // double check
-    pjq->buf_size = JOB_BUFFER_SIZE;
+    pjq->buf_size = JOB_BUFFER_SIZE; 
     pjq->size = 0;
 
     for (int i=0; i < pjq->buf_size; i++ ) {

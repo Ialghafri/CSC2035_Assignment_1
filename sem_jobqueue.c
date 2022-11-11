@@ -1,6 +1,6 @@
 /*
  * Replace the following string of 0s with your student number
- * 000000000
+ * 210288315
  */
 #include <fcntl.h>          /* For O_* constants */
 #include <sys/stat.h>       /* For mode constants */
@@ -114,56 +114,164 @@ sem_jobqueue_t* sem_jobqueue_new(proc_t* proc) {
  * sem_jobqueue.h
  */
 job_t* sem_jobqueue_dequeue(sem_jobqueue_t* sjq, job_t* dst) {
+    
+    if (sjq == NULL) {
     return NULL;
-}
+    }
+    if (((sem_wait(sjq->full)) != -1 ) && ( (sem_wait(sjq->mutex)) != -1 )) {
+            sem_post(sjq->mutex);
+            sem_post(sjq->empty);
+            return ipc_jobqueue_dequeue( sjq->ijq, dst );
+        }
+
+    if (((sem_wait(sjq->full)) != -1 ) && (sem_wait(sjq->mutex)) == -1 ) {
+
+            sem_post(sjq->full);
+            return NULL;
+        }    
+
+    else {
+        
+        return NULL;
+    }
+
+    }
+
+
+    
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 void sem_jobqueue_enqueue(sem_jobqueue_t* sjq, job_t* job) {
-    return;
+    
+    if (sjq == NULL) {
+        return;
+    }
+    if (((sem_wait(sjq->empty)) != -1 ) && ((sem_wait(sjq->mutex) != -1 ))) {
+            sem_post(sjq->mutex);
+            sem_post(sjq->full);
+            return ipc_jobqueue_enqueue(sjq->ijq, job);
+        }
+
+    if (((sem_wait(sjq->empty)) != -1 ) && ((sem_wait(sjq->mutex) == -1 ))) {
+            sem_post(sjq->empty);
+        }
+    
+    else {
+        return;
+    }
 }
+
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 bool sem_jobqueue_is_empty(sem_jobqueue_t* sjq) {
-    return true;
+    
+    if (sjq == NULL) {
+        return true;
+    }
+    
+    if ( sem_wait(sjq->mutex) != -1) {
+
+        sem_post(sjq->mutex);
+        return ipc_jobqueue_is_empty(sjq->ijq);
+    }
+    else {
+        return true;
+    }
 }
+
+
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 bool sem_jobqueue_is_full(sem_jobqueue_t* sjq) {
-    return true;
+    if (sjq == NULL) {
+        return true;
+    }
+
+    if (sem_wait(sjq->mutex) != -1) {
+
+        sem_post(sjq->mutex);
+        return ipc_jobqueue_is_full(sjq->ijq);
+    }
+
+    else {
+        return true;
+    }
+
 }
+    
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 job_t* sem_jobqueue_peek(sem_jobqueue_t* sjq, job_t* dst) {
-    return NULL;
+    
+    if (sjq == NULL) {
+        return NULL;
+    }
+
+    if (sem_wait(sjq->mutex) != -1) {
+
+        sem_post(sjq->mutex);
+        return ipc_jobqueue_peek(sjq->ijq, dst);
+    }
+
+    else {
+        return NULL;
+    }
+ 
 }
+
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 int sem_jobqueue_size(sem_jobqueue_t* sjq) {
-    return 0;
+    if (sjq == NULL) {
+        return NULL;
+    }
+    
+    if (sem_wait(sjq->mutex) != -1) {
+
+        sem_post(sjq->mutex);
+        return ipc_jobqueue_size(sjq->ijq);
+    }
+    else {
+        return NULL;
+    }
 }
+    
+
 
 /* 
  * TODO: you must implement this function according to the specification in
  * sem_jobqueue.h
  */
 int sem_jobqueue_space(sem_jobqueue_t* sjq) {
-    return 0;
+    if (sjq == NULL) {
+        return NULL;
+    }
+    if (sem_wait(sjq->mutex) != -1) {
+
+        sem_post(sjq->mutex);
+        return ipc_jobqueue_space(sjq->ijq);
+    }
+
+    else {
+        return NULL;
+    }
 }
+
 
 /* 
  * TODO: you must implement this function according to the specification in
@@ -173,5 +281,16 @@ int sem_jobqueue_space(sem_jobqueue_t* sjq) {
  *      order
  */
 void sem_jobqueue_delete(sem_jobqueue_t* sjq) {
+
+    if (sjq != NULL) {
+
+        // sem_wait(sjq->mutex);
+        // sem_post(sjq->mutex);
+        sem_delete(sjq->mutex, sem_mutex_label);
+        free(sjq);
+        ipc_jobqueue_delete(sjq->ijq);
+    }
+
     return;
-}
+    }
+

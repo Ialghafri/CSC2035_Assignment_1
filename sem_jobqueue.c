@@ -228,7 +228,6 @@ job_t* sem_jobqueue_peek(sem_jobqueue_t* sjq, job_t* dst) {
     else {
         return NULL;
     }
- 
 }
 
 
@@ -284,13 +283,10 @@ void sem_jobqueue_delete(sem_jobqueue_t* sjq) {
 
     if (sjq != NULL) {
 
-        // sem_wait(sjq->mutex);
-        // sem_post(sjq->mutex);
         sem_delete(sjq->mutex, sem_mutex_label);
         free(sjq);
         ipc_jobqueue_delete(sjq->ijq);
     }
-
     return;
-    }
+}
 

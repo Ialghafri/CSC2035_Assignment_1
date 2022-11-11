@@ -155,7 +155,7 @@ char* job_to_str(job_t* job, char* str) {
 
         if (str == NULL) {
             char* pdac;
-            pdac = (char*) malloc(sizeof(char)); //JOB_STR_SIZE
+            pdac = (char*) malloc(sizeof(char)); 
 
             snprintf( pdac, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label);
             return pdac;
@@ -190,7 +190,7 @@ job_t* str_to_job(char* str, job_t* job) {
      
 
      if ( job == NULL ) {
-         job_t* temp_job = malloc(sizeof(job_t));              //job_new(0, 0, 0, PAD_STRING);
+         job_t* temp_job = malloc(sizeof(job_t));              
          
          if (sscanf(str, JOB_STR_FMT, &temp_job->pid, &temp_job->id, &temp_job->priority, temp_job->label) != 4) {
             job_delete(temp_job);
@@ -214,94 +214,6 @@ job_t* str_to_job(char* str, job_t* job) {
      
 }
 
-    // if ( str == NULL || sscanf( str, JOB_STR_FMT )) {
-
-    //     return NULL;
-
-    // }
-
-    // int pid;
-    // int id;
-    // int priority;
-    // char label[MAX_NAME_SIZE];
-    // char compare_str[JOB_STR_SIZE];
-
-    // if ( job == NULL ) {
-    //     job_t* nullNew;
-    //     nullNew = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
-    //     job_init(nullNew);
-        
-    //     sscanf(str, JOB_STR_FMT, &pid, &id, &priority, label);
-    //     snprintf( compare_str, JOB_STR_SIZE, JOB_STR_FMT, pid, id, priority, label );
-    //     if (strncmp(str, compare_str, JOB_STR_SIZE) != 0) {
-    //         return NULL;
-    //     }
-
-    //     job_set(nullNew, pid, id, priority, label);
-    //     job_copy(nullNew, job);
-
-
-    // }
-
-    // else {
-
-    //     sscanf(str, JOB_STR_FMT, &job->pid, &job->id, &job->priority, job->label);
-    //     snprintf( compare_str, JOB_STR_SIZE, JOB_STR_FMT, job->pid, job->id, job->priority, job->label );
-
-
-    //     if (strnlen(job->label, MAX_NAME_SIZE - 1) != MAX_NAME_SIZE - 1) {
-    //         return NULL;
-    //     }        
-    //     if (strncmp(str, compare_str, JOB_STR_SIZE) !=0) {return NULL;
-    //     }
-        
-    // }
-
-
-
-    // return job;
-
-/*
-return NULL;
-
-     if ( str == NULL || sscanf( str, JOB_STR_FMT )) {
-
-         return NULL;
-
-     }
-
-     if ( job == NULL ) {
-         job_t* nullNew;
-         nullNew = (job_t*) malloc(JOB_STR_SIZE * sizeof(job_t) );
-         job_init(nullNew);
-
-
-         snprintf( nullNew, JOB_STR_SIZE, JOB_STR_FMT, &nullNew->pid, &nullNew-> id, &nullNew->priority, nullNew-> label );
-         return nullNew;
-
-
-
-     }
-
-     if ( strnlen( str, MAX_NAME_SIZE) != MAX_NAME_SIZE - 1 || strnlen( job->label, MAX_NAME_SIZE ) != MAX_NAME_SIZE - 1 ) {
-
-         delete (job);
-
-         return NULL;
-
-     }
-
-     else 
-
-     snprintf( str, JOB_STR_SIZE, JOB_STR_FMT, &job->id, &job->pid, &job->priority, job->label );
-
-
-     return str;
-
-
-
-
-}
 
 /* 
  * TODO: you must implement this function

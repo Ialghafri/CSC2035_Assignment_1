@@ -30,7 +30,6 @@ job_t* ipc_jobqueue_dequeue(ipc_jobqueue_t* ijq, job_t* dst) {
     
         return NULL;
         
-
     }
     if ( ijq != NULL ) { 
         do_critical_work(ijq->proc);
@@ -51,7 +50,6 @@ void ipc_jobqueue_enqueue(ipc_jobqueue_t* ijq, job_t* job) {
     
         return;
         
-
     }
     if ( ijq != NULL ) { 
         do_critical_work(ijq->proc);
@@ -77,7 +75,6 @@ bool ipc_jobqueue_is_empty(ipc_jobqueue_t* ijq) {
     
         return true;
         
-
     }
 }
 
@@ -92,7 +89,6 @@ bool ipc_jobqueue_is_full(ipc_jobqueue_t* ijq) {
     
         return true;
         
-
     }
     if ( ijq != NULL ) { 
         do_critical_work(ijq->proc);
@@ -134,7 +130,6 @@ int ipc_jobqueue_size(ipc_jobqueue_t* ijq) {
     
         return NULL;
         
-
     }
     if ( ijq != NULL ) { 
         do_critical_work(ijq->proc);
@@ -155,7 +150,6 @@ int ipc_jobqueue_space(ipc_jobqueue_t* ijq) {
     
         return NULL;
         
-
     }
     if ( ijq != NULL ) { 
         do_critical_work(ijq->proc);

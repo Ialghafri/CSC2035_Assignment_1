@@ -222,7 +222,7 @@ job_t* str_to_job(char* str, job_t* job) {
  */
 void job_delete(job_t* job) {
     
-    free(job);
+    free (job);
 
     return;
 }
